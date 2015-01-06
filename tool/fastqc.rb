@@ -14,7 +14,7 @@ end
 def qsub_fastqc(fastq)
   job_name = fastq.split("/").last.slice(0..8) + "F"
   script_path = Basedir + "/tool/fastqc.sh"
-  qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} #{script_path} #{fastq}"
+  qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -l dbcls -N #{job_name} #{script_path} #{fastq}"
   sh qsub
   job_name
 rescue RuntimeError
