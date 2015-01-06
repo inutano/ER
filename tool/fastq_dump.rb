@@ -45,7 +45,7 @@ if __FILE__ == $0
     end
 
     # fix the number to change throughput
-    number_of_parallel = 8
+    number_of_parallel = 14
     srafiles = next_items(number_of_parallel).compact
 
     # no file to dump
