@@ -78,5 +78,8 @@ if __FILE__ == $0
         sleep 10
       end
     end
+    
+    # flush fastqc directory
+    `#{Basedir}/tool/mv_fastqc.sh`
   end
 end
