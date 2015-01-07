@@ -14,7 +14,7 @@ end
 def qsub_bunzip2(bz2)
   job_name = bz2.split("/").last.slice(0..8) + "B"
   script_path = Basedir + "/tool/bunzip2.sh"
-  qsub = "qsub -N #{job_name} #{script_path} #{bz2}"
+  qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} #{script_path} #{bz2}"
   sh qsub
   job_name
 rescue RuntimeError
