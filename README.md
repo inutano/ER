@@ -1,27 +1,27 @@
 ## ER
 
-built for emergency, but always things happen here.
+Built for emergency. Even for where always it is.
 
-### what?
+### What?
 
-get files from SRA and dump it to fastq, then run FastQC to get read specs. formerly complicated, now it is just a loop of simple modules.
+Get files from SRA and dump them to fastq files, then run FastQC to get read specs. Formerly complicated, now it is just a loop of simple modules.
 
-### where?
+### Where?
 
-running on Rina Aizawa (DDBJ Super Computer System), in a node connected to the archive.
+Running on Rina Aizawa (DDBJ Super Computer System), in a node connected to the archive. Ask details to Rina's system admin.
 
-### who?
+### Who?
 
 [me!](https://twitter.com/inutano)
 
-### when?
+### When?
 
-since 2011, will end up with the end of next-generation.
+Since 2011, will end up with the end of next-generation.
 
-### how?
+### How?
 
-read messy scripts or ask me
+Read scripts.
 
-### lisence
+### Lisence
 
 "THE BEER-WARE LICENSE" (Rivision 42): [inutano@gmail.com](mailto:inutano@gmail.com) is contributing to this project. As long as you retain this notice you can do whatever you want with this stuff. If we meet some day, and you think this stuff is worth it, you can buy me a beer in return. Tazro Inutano Ohta
