@@ -47,16 +47,16 @@ if __FILE__ == $0
           sleep 10
         end
       end
-      
+
       # Kill zombies
-      fqdump_processes.each do |th|
-        if th.exited?
-          Process.waitpid(th.pid)
-        end
-      end
+      #fqdump_processes.each do |th|
+      #  if !th.status
+      #    Process.waitpid(th.value.pid)
+      #  end
+      #end
       
       # Wait if num of running processes are >4
-      while fqdump_processes.select{|pid| !pid.exited? }.size > 4
+      while fqdump_processes.select{|th| th.status }.size > 4
         sleep 10
       end
       
