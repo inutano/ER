@@ -38,6 +38,7 @@ if __FILE__ == $0
   while true
     srafiles = next_items
     fqdump_processes = []
+    
     srafiles.each do |fpath|
       # Wait if disk full
       if disk_full?
@@ -47,18 +48,26 @@ if __FILE__ == $0
         end
       end
       
-      # Wait if num of running processes are >13
-      while fqdump_processes.select{|pid| !pid.exited? }.size > 13
+      # Kill zombies
+      fqdump_processes.each do |th|
+        if th.exited?
+          Process.waitpid(th.pid)
+        end
+      end
+      
+      # Wait if num of running processes are >4
+      while fqdump_processes.select{|pid| !pid.exited? }.size > 4
         sleep 10
       end
       
-      pid_c1 = fork do
-        pid_c2 = fork do
-          fastq_dump(fpath)
-        end
-        fqdump_processes << pid_c2
+      # Fork
+      pid = fork do
+        fastq_dump(fpath)
       end
-      Process.waitpid(pid_c1)
+      
+      # Create thread to monitor pid
+      th = Process.detach(pid)
+      fqdump_processes << th
     end
   end
 end
