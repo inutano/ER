@@ -48,7 +48,7 @@ if __FILE__ == $0
       end
       
       # Wait if num of running processes are >13
-      while fqdump_processes.map{|pid_c2| !pid_c2.exited? }.size > 13
+      while fqdump_processes.select{|pid| !pid.exited? }.size > 13
         sleep 10
       end
       
