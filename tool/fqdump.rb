@@ -56,7 +56,7 @@ if __FILE__ == $0
       #end
       
       # Wait if num of running processes are >4
-      while fqdump_processes.select{|th| th.status }.size > 4
+      while fqdump_processes.select{|th| th.status }.size > 8
         sleep 10
       end
       
