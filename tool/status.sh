@@ -9,15 +9,15 @@ echo "waiting"
 /home/geadmin/UGER/bin/lx-amd64/qstat -u "*" | awk '$5 == "qw" {print $4}' | sort | uniq -c | sort -nr | head -5
 echo ""
 echo "number of .sra files"
-ls /home/inutano/project/ER/data/*sra | wc -l
+ls /home/inutano/project/ER/data/*sra 2>/dev/null | wc -l
 echo "number of .bz2 files"
-ls /home/inutano/project/ER/data/*bz2 | wc -l
+ls /home/inutano/project/ER/data/*bz2 2>/dev/null | wc -l
 echo "number of .fastq files"
-ls /home/inutano/project/ER/fastq/*fastq | wc -l
+ls /home/inutano/project/ER/fastq/*fastq 2>/dev/null | wc -l
 echo "number of fastqc result files"
-ls /home/inutano/project/ER/fastq/*zip | wc -l
+ls /home/inutano/project/ER/fastq/*zip 2>/dev/null | wc -l
 echo ""
 echo "disk size"
-du -h /home/inutano/project/ER/data/ 2> /dev/null
-du -h /home/inutano/project/ER/fastq/ 2> /dev/null
-du -h /home/inutano/project/ER/fqdumpfailed/ 2> /dev/null
+du -h /home/inutano/project/ER/data/ 2>/dev/null
+du -h /home/inutano/project/ER/fastq/ 2>/dev/null
+du -h /home/inutano/project/ER/fqdumpfailed/ 2>/dev/null
