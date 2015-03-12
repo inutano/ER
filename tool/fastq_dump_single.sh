@@ -3,4 +3,5 @@
 
 cd /home/inutano/project/ER/data
 /home/inutano/local/bin/sratoolkit/fastq-dump --split-3 $1 && rm -f $1
-mv ${1:0:9}*.fastq /home/inutano/project/ER/fastq
+id=`echo $1 | sed -e 's:\.sra$::' | sed -e 's:\.lite$::'`
+ls /home/inutano/project/ER/data | awk '$0 ~ /'"${id}"'/' | xargs -0 mv -t /home/inutano/project/ER/fastq
