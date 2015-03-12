@@ -52,7 +52,7 @@ if __FILE__ == $0
   GEQueue = ARGV.first || "short"
   while true
     data_sort_by_size.each do |fpath|
-      submit_fqdump(fpath, GEQueue) if chack_volume
+      submit_fqdump(fpath, GEQueue) if check_volume
     end
   end
 end
