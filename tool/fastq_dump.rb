@@ -17,7 +17,7 @@ def disk_full?
   data_usage = `du /home/inutano/project/ER/data 2>/dev/null | cut -f 1`.chomp.to_i
   fastq_usage = `du /home/inutano/project/ER/fastq 2>/dev/null | cut -f 1`.chomp.to_i
   disk_usage = data_usage + fastq_usage
-  fastq_usage > 20_000_000_000 or disk_usage > 40_000_000_000
+  fastq_usage > 20_000_000_000 or disk_usage > 35_000_000_000
 end
 
 def check_volume
