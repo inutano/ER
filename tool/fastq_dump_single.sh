@@ -5,4 +5,4 @@ BASEDIR="/home/inutano/project/ER"
 cd "${BASEDIR}/data"
 /home/inutano/local/bin/sratoolkit/fastq-dump --split-3 $1 && rm -f $1
 id=`echo $1 | sed -e 's:\.sra$::' | sed -e 's:\.lite$::'`
-mv "${id}*.fastq" "${BASEDIR}/fastq"
+mv ${id}*.fastq ${BASEDIR}/fastq
