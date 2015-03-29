@@ -2,7 +2,7 @@
 # ls data/*.sra | sed -e 's:data/::g' | while read f ; do ; qsub -N $f simple_fastqc.sh $f ; done
 
 # Get a path to dump command
-fqdump="/home/inutano/local/bin/sratoolkit/fastq-dump --split-3"
+fqdump="/home/inutano/local/bin/sratoolkit/fastq-dump --gzip --split-3"
 
 # Acquiring Location..
 BASEDIR="/home/inutano/project/ER"
@@ -16,10 +16,10 @@ if [ -e "/ssd" ] ; then
   mkdir -p $stage
   mv $1 $stage
   cd $stage && ls *sra | xargs $fqdump
-  mv ${stage}/*fastq $fqdir && rm -fr $stage || rm -fr $stage && echo $1 >> ${BASEDIR}/table/fqdumpfailed
+  mv ${stage}/*fastq.gz $fqdir && rm -fr $stage || rm -fr $stage && echo $1 >> ${BASEDIR}/table/fqdumpfailed
 else
   cd "${BASEDIR}/data"
   $fqdump $1 && rm -f $1
   id=`echo $1 | sed -e 's:\.sra$::' | sed -e 's:\.lite$::'`
-  mv ${id}*.fastq $fqdir
+  mv ${id}*.fastq.gz $fqdir
 fi
