@@ -11,8 +11,8 @@ set -u
 fqdump="/home/inutano/local/bin/sratoolkit/fastq-dump --gzip --split-3"
 
 # working directory
-DIR_IN="/home/inutano/project/ER/fastq"
-DIR_OUT="/home/inutano/project/ER/data"
+DIR_IN="/home/inutano/project/ER/data"
+DIR_OUT="/home/inutano/project/ER/fastq"
 FQLOG="/home/inutano/project/ER/table/fqdumpfailed"
 
 ## Run fastq-dump
@@ -28,7 +28,7 @@ id=`echo ${filename} | awk -F '.' '{ print $1 }'`
 
 # dump on /ssd if available
 if [ -e "/ssd" ] ; then
-  stage=/ssd/${id}
+  stage=/ssd/fqdump/${id}
   mkdir -p ${stage}
   mv ${filepath} ${stage}
   cd ${stage}
