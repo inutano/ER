@@ -13,7 +13,7 @@ ls /home/inutano/project/ER/data/*sra 2>/dev/null | wc -l
 echo "number of .bz2 files"
 ls /home/inutano/project/ER/data/*bz2 2>/dev/null | wc -l
 echo "number of .fastq files"
-ls /home/inutano/project/ER/fastq/*fastq 2>/dev/null | wc -l
+ls /home/inutano/project/ER/fastq/*fastq* 2>/dev/null | wc -l
 echo "number of fastqc result files"
 ls /home/inutano/project/ER/fastq/*zip 2>/dev/null | wc -l
 echo ""
