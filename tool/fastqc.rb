@@ -17,7 +17,7 @@ def qsub_fastqc(fastq)
   qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l short #{script_path} #{fastq}"
   sh qsub
   job_name
-rescue RuntimeError
+rescue NameError, RuntimeError
   qstat = "/home/geadmin/UGER/bin/lx-amd64/qstat | grep 'inutano' | wc -l"
   if `#{qstat}`.to_i > 4500
     puts "---- too many job! ----"
