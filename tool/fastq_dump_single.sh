@@ -32,7 +32,7 @@ if [ -e "/ssd" ] ; then
   mkdir -p ${stage}
   mv ${filepath} ${stage}
   cd ${stage}
-  ${fqdump} ${filename} && mv ${stage}/*fastq* && rm -fr ${stage} || rm -fr ${stage} && echo ${filepath} >> ${FQLOG}
+  ${fqdump} ${filename} && mv ${stage}/*fastq* ${DIR_OUT} && rm -fr ${stage} || rm -fr ${stage} && echo ${filepath} >> ${FQLOG}
 else
   cd ${DIR_IN}
   ${fqdump} ${filepath} && mv ${id}*fastq* ${DIR_OUT} && rm -f ${filepath}
