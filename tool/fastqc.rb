@@ -11,10 +11,10 @@ def fastq_order_by_size
   fq_files.sort_by{|f| File.size(f) }
 end
 
-def qsub_fastqc(fastq)
+def qsub_fastqc(queue, fastq)
   job_name = fastq.split("/").last.slice(0..8) + "F"
   script_path = Basedir + "/tool/fastqc.sh"
-  qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l short #{script_path} #{fastq}"
+  qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l #{queue} #{script_path} #{fastq}"
   sh qsub
   job_name
 rescue NameError, RuntimeError
@@ -26,8 +26,10 @@ rescue NameError, RuntimeError
     end
     retry
   end
-  puts "------ qsub command caused an error for #{fastq} " + Time.now.to_s
-  exit
+  sleep 60
+  retry
+  #puts "------ qsub command caused an error for #{fastq} " + Time.now.to_s
+  #exit
 end
 
 def job_finished?(job_name)
@@ -45,6 +47,8 @@ def disk_full?
 end
 
 if __FILE__ == $0
+  GEQueue = ARGV.first || "short"
+  
   while true
     # anytime disk full: fastqc only reduces the size
     #if disk_full?
@@ -68,7 +72,7 @@ if __FILE__ == $0
     # job submission
     job_box = []
     fastq_list.each do |fastq|
-      job_box << qsub_fastqc(fastq)
+      job_box << qsub_fastqc(GEQueue, fastq)
     end
     puts job_box.length.to_s + " jobs submitted " + Time.now.to_s
     
