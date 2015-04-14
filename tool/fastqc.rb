@@ -2,6 +2,7 @@
 
 require "rake"
 require "fileutils"
+require "systemu"
 
 Basedir = "/home/inutano/project/ER"
 
@@ -15,26 +16,20 @@ def qsub_fastqc(queue, fastq)
   job_name = fastq.split("/").last.slice(0..8) + "F"
   script_path = Basedir + "/tool/fastqc.sh"
   qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l #{queue} #{script_path} #{fastq}"
-  sh qsub
-  job_name
+  status, stdout, stderr = systemu(qsub)
+  raise RuntimeError if status.exitstatus != 0
+  puts [qsub, stdout]
+  stdout.split("\s")[2] # return job id
 rescue NameError, RuntimeError
-  qstat = "/home/geadmin/UGER/bin/lx-amd64/qstat | grep 'inutano' | wc -l"
-  if `#{qstat}`.to_i > 4500
-    puts "---- too many job! ----"
-    while `#{qstat}`.to_i > 4500
-      sleep 10
-    end
-    retry
-  end
-  sleep 60
+  sleep 180
   retry
-  #puts "------ qsub command caused an error for #{fastq} " + Time.now.to_s
-  #exit
 end
 
-def job_finished?(job_name)
-  stat = `/home/geadmin/UGER/bin/lx-amd64/qstat | awk '$1 ~ /^[0-9]/ { print $3 }'`
-  !stat.split("\n").include?(job_name)
+def job_finished?(jobid)
+  qstat = "/home/geadmin/UGER/bin/lx-amd64/qstat | awk '$1 == #{jobid}'"
+  status, stdout, stderr = systemu(qstat)
+  raise RuntimeError if status.exitstatus != 0
+  stdout.empty?
 end
 
 def disk_full?
@@ -77,9 +72,9 @@ if __FILE__ == $0
     puts job_box.length.to_s + " jobs submitted " + Time.now.to_s
     
     # waiting for submitted job to finish
-    job_box.each do |job_name|
-      while !job_finished?(job_name)
-        sleep 10
+    job_box.each do |job_id|
+      while !job_finished?(job_id)
+        sleep 7
       end
     end
     
