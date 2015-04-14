@@ -11,10 +11,10 @@ def bz2_order_by_size
   bz2_files.sort_by{|f| File.size(f) }
 end
 
-def qsub_bunzip2(bz2)
+def qsub_bunzip2(queue, bz2)
   job_name = bz2.split("/").last.slice(0..8) + "B"
   script_path = Basedir + "/tool/bunzip2.sh"
-  qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} #{script_path} #{bz2}"
+  qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l #{queue} #{script_path} #{bz2}"
   sh qsub
   job_name
 rescue RuntimeError
@@ -26,8 +26,10 @@ rescue RuntimeError
     end
     retry
   end
-  puts "------ qsub command caused an error for #{bz2} " + Time.now.to_s
-  exit
+  sleep 60
+  retry
+  #puts "------ qsub command caused an error for #{bz2} " + Time.now.to_s
+  #exit
 end
 
 def job_finished?(job_name)
@@ -45,6 +47,7 @@ def disk_full?
 end
 
 if __FILE__ == $0
+  GEQueue = ARGV.first || "short"
   while true
     # anytime disk full
     if disk_full?
@@ -68,7 +71,7 @@ if __FILE__ == $0
     # job submission
     job_box = []
     bz2_list.each do |bz2|
-      job_box << qsub_bunzip2(bz2)
+      job_box << qsub_bunzip2(GEQueue, bz2)
     end
     puts job_box.length.to_s + " jobs submitted " + Time.now.to_s
     
