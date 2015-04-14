@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require "rake"
-require "fileutils"
+require "systemu"
 
 Basedir = "/home/inutano/project/ER"
 GEadmin = "/home/geadmin/UGER/bin/lx-amd64"
@@ -34,20 +33,13 @@ end
 def submit_fqdump(fpath, queue)
   job_name = fpath.split("/").last.slice(0..8) + "D"
   script_path = Basedir + "/tool/fastq_dump_single.sh"
-  sh "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l #{queue} #{script_path} #{fpath}"
+  status, stdout, stderr = systemu("/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l #{queue} #{script_path} #{fpath}")
+  raise RuntimeError if status.exitstatus != 0
+  puts stdout
+  stdout.split("\s")[2] # return job id
 rescue NameError, RuntimeError
-  qstat = "#{GEadmin}/qstat | grep 'inutano' | wc -l".to_i
-  if qstat > 4500
-    puts "---- too many job! ----"
-    while qstat > 4500
-      sleep 300
-    end
-    retry
-  end
-  sleep 60
+  sleep 180
   retry
-  #puts "------ qsub command caused an error for #{fpath} " + Time.now.to_s
-  #exit 1
 end
 
 if __FILE__ == $0
