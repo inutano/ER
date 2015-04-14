@@ -44,8 +44,10 @@ rescue NameError, RuntimeError
     end
     retry
   end
-  puts "------ qsub command caused an error for #{fpath} " + Time.now.to_s
-  exit 1
+  sleep 60
+  retry
+  #puts "------ qsub command caused an error for #{fpath} " + Time.now.to_s
+  #exit 1
 end
 
 if __FILE__ == $0
