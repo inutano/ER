@@ -33,9 +33,10 @@ end
 def submit_fqdump(fpath, queue)
   job_name = fpath.split("/").last.slice(0..8) + "D"
   script_path = Basedir + "/tool/fastq_dump_single.sh"
-  status, stdout, stderr = systemu("/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l #{queue} #{script_path} #{fpath}")
+  qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l #{queue} #{script_path} #{fpath}"
+  status, stdout, stderr = systemu(qsub)
   raise RuntimeError if status.exitstatus != 0
-  puts stdout
+  puts [qsub, stdout]
   stdout.split("\s")[2] # return job id
 rescue NameError, RuntimeError
   sleep 180
