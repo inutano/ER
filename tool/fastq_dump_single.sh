@@ -27,13 +27,14 @@ filename=`echo ${filepath} | tr '/' '\n' | awk '$0 ~ /^.RR/'`
 id=`echo ${filename} | awk -F '.' '{ print $1 }'`
 
 # dump on /ssd if available
-if [ -e "/ssd" ] ; then
-  stage=/ssd/fqdump/${id}
-  mkdir -p ${stage}
-  mv ${filepath} ${stage}
-  cd ${stage}
-  ${fqdump} ${filename} && mv ${stage}/*fastq* ${DIR_OUT} && rm -fr ${stage} || rm -fr ${stage} && echo ${filepath} >> ${FQLOG}
-else
+#if [ -e "/ssd" ] ; then
+#  available=``
+#  stage=/ssd/fqdump/${id}
+#  mkdir -p ${stage}
+#  mv ${filepath} ${stage}
+#  cd ${stage}
+#  ${fqdump} ${filename} && mv ${stage}/*fastq* ${DIR_OUT} && rm -fr ${stage} || rm -fr ${stage} && echo ${filepath} >> ${FQLOG}
+#else
   cd ${DIR_IN}
   ${fqdump} ${filepath} && mv ${id}*fastq* ${DIR_OUT} && rm -f ${filepath}
-fi
+#fi

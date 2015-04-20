@@ -24,13 +24,13 @@ filename=`echo ${filepath} | tr '/' '\n' | awk '$0 ~ /^.RR/'`
 id=`echo ${filename} | awk -F '.' '{ print $1 }'`
 
 # run on /ssd if available
-if [ -e "/ssd" ] ; then
-  stage=/ssd/fastqc/${id}
-  mkdir -p ${stage}
-  mv ${filepath} ${stage}
-  cd ${stage}
-  ${fastqc} ${filename} && mv ${stage}/*.zip ${DIR_OUT} && rm -fr ${stage} || rm -fr ${stage} && echo ${filepath} >> ${FQLOG}
-else
+#if [ -e "/ssd" ] ; then
+#  stage=/ssd/fastqc/${id}
+#  mkdir -p ${stage}
+#  mv ${filepath} ${stage}
+#  cd ${stage}
+#  ${fastqc} ${filename} && mv ${stage}/*.zip ${DIR_OUT} && rm -fr ${stage} || rm -fr ${stage} && echo ${filepath} >> ${FQLOG}
+#else
   cd ${DIR_IN}
-  ${fastqc} ${filepath} && mv ${id}*zip && rm -f ${filepath}
-fi
+  ${fastqc} ${filepath} && rm -f ${filepath}
+#fi
