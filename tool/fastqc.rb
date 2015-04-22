@@ -13,7 +13,7 @@ def fastq_order_by_size
 end
 
 def qsub_fastqc(queue, fastq)
-  job_name = fastq.split("/").last + "fastqc"
+  job_name = fastq.split("/").last + ".fastqc"
   script_path = Basedir + "/tool/fastqc.sh"
   qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l #{queue} #{script_path} #{fastq}"
   status, stdout, stderr = systemu(qsub)
