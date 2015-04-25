@@ -5,7 +5,7 @@ set -u
 
 ## User Setting
 # path to fastqc command
-fastqc="/home/inutano/local/bin/fastqc --thread 4 --noextract"
+fastqc="/home/inutano/local/bin/fastqc --threads 4 --noextract"
 
 # working directory
 DIR_IN="/home/inutano/project/ER/fastq"
