@@ -30,7 +30,7 @@ def check_volume
   true
 end
 
-def submit_fqdump(fpath, queue)
+def submit_fqdump(queue, fpath)
   job_name = fpath.split("/").last + "dump"
   script_path = Basedir + "/tool/fastq_dump_single.sh"
   qsub = "/home/geadmin/UGER/bin/lx-amd64/qsub -N #{job_name} -l #{queue} #{script_path} #{fpath}"
@@ -43,11 +43,21 @@ rescue NameError, RuntimeError
   retry
 end
 
+def unfinished
+  qstat = "/home/geadmin/UGER/bin/lx-amd64/qstat -r | grep 'jobname' | awk '{ print $3 }'"
+  status, stdout, stderr = systemu(qstat)
+  stdout.split("\n").map do |jobname|
+    File.join(Basedir, "data", jobname.sub(".sradump",".sra"))
+  end
+end
+
 if __FILE__ == $0
   GEQueue = ARGV.first || "short"
   while true
     data_sort_by_size.each do |fpath|
-      submit_fqdump(fpath, GEQueue) if check_volume
+      if not unfinished.include?(fpath)
+        submit_fqdump(GEQueue, fpath) if check_volume
+      end
     end
   end
 end
