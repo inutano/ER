@@ -8,7 +8,7 @@ Basedir = "/home/inutano/project/ER"
 
 def fastq_order_by_size
   fastq_dir = Basedir + "/fastq"
-  fq_files = Dir.glob(fastq_dir + "/*fastq") + Dir.glob(fastq_dir + "/*fastq.gz")
+  fq_files = Dir.glob(fastq_dir + "/*fastq*")
   fq_files.sort_by{|f| File.size(f) }
 end
 
@@ -43,16 +43,7 @@ end
 
 if __FILE__ == $0
   GEQueue = ARGV.first || "short"
-  
   while true
-    # anytime disk full: fastqc only reduces the size
-    #if disk_full?
-    #  puts "Disk quota nearly exceeded: sleep until anyone is out " + Time.now.to_s
-    #  while disk_full?
-    #    sleep 10
-    #  end
-    #end
-
     fastq_list = fastq_order_by_size
 
     # no file to dump
