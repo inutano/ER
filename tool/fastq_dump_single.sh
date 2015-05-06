@@ -1,4 +1,4 @@
-#$ -o /home/inutano/project/ER/log -S /bin/bash -j y -l mem_req=8G,s_vmem=8G -pe def_slot 1
+#$ -o /home/inutano/project/ER/log -S /bin/bash -j y -l mem_req=16G,s_vmem=16G -pe def_slot 1
 # Usage:
 #   fastq_dump.single.sh /path/to/DRR000001.sra
 # Interactive Run:
