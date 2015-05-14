@@ -1,4 +1,4 @@
-#$ -o /home/inutano/project/ER/log -S /bin/bash -j y -l mem_req=16G,s_vmem=16G -pe def_slot 1
+#$ -o /home/inutano/project/ER/log -S /bin/bash -j y -l mem_req=32G,s_vmem=32G -pe def_slot 1
 # Usage:
 #   fastq_dump.single.sh /path/to/DRR000001.sra
 # Interactive Run:
@@ -36,5 +36,5 @@ id=`echo ${filename} | awk -F '.' '{ print $1 }'`
 #  ${fqdump} ${filename} && mv ${stage}/*fastq* ${DIR_OUT} && rm -fr ${stage} || rm -fr ${stage} && echo ${filepath} >> ${FQLOG}
 #else
   cd ${DIR_IN}
-  ${fqdump} ${filepath} && mv ${id}*fastq* ${DIR_OUT} && rm -f ${filepath}
+  ${fqdump} -A ${id} ${filepath} && mv ${id}*fastq* ${DIR_OUT} && rm -f ${filepath}
 #fi
