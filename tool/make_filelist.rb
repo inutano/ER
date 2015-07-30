@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 # generates a list of file path sorted by file size
 # from a list of SRA ID or files (ARGV[0]) in FastQC result directory (static)
+# 
+## make sure that you have latest SRA_Accessions.tab in /home/inutano/project/ER/table
+#
+# usage:
+#  ruby make_filelist.rb > filelist
+#
 
 require "parallel"
 
