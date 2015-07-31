@@ -13,8 +13,7 @@ require "parallel"
 
 class SRAFile
   HOME = "/home/inutano"
-  #ACC = HOME + "/project/ER/table/SRA_Accessions.tab"
-  ACC = "/ssd/inutano/data/mdata/SRA_Accessions.tab"
+  ACC = HOME + "/project/ER/table/SRA_Accessions.tab"
   @@hash = {}
   @@num_of_parallel = 16
   
