@@ -15,4 +15,6 @@ while read f ; do
     rm -f ${old}
   fi
   mv ${f} "${dir}/"
+  rm -f *html
 done
+
