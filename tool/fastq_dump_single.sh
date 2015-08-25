@@ -8,7 +8,7 @@ set -u
 
 ## User Setting
 # path to dump command
-fqdump="/home/inutano/local/bin/fastq-dump --gzip --split-3 --quiet"
+fqdump="/home/inutano/local/bin/fastq-dump --gzip --split-3"
 
 # working directory
 DIR_IN="/home/inutano/project/ER/data"
