@@ -5,15 +5,25 @@ require "systemu"
 Basedir = "/home/inutano/project/ER"
 GEadmin = "/home/geadmin/UGER/bin/lx-amd64"
 
+def minimum_dir(data_dir)
+  ## return a path to the directory, delete if it is empty
+  list = Dir.glob(data_dir + "/*RR*").select{|f| File.directory?(f) }.sort{|f| File.size(f) }
+  while Dir.entries(list.first).size == 2
+    FileUtils.rm_fr(list.shift)
+  end
+  list.shift
+end
+
 def data_sort_by_size(data_dir)
   ## Create a list of path to data sorted by data size
-  sra_files = Dir.glob(data_dir + "/*sra")
+  dir = minimum_dir(data_dir)
+  sra_files = Dir.glob(dir + "/*sra")
   sra_files.sort_by{|f| File.size(f) }
 end
 
 def disk_full?(data_dir, fq_dir)
-  data_usage = `du #{data_dir} 2>/dev/null | cut -f 1`.chomp.to_i
-  fastq_usage = `du #{fq_dir} 2>/dev/null | cut -f 1`.chomp.to_i
+  data_usage = `du -s #{data_dir} 2>/dev/null | cut -f 1`.chomp.to_i
+  fastq_usage = `du -s #{fq_dir} 2>/dev/null | cut -f 1`.chomp.to_i
   disk_usage = data_usage + fastq_usage
   fastq_usage > 20_000_000_000 or disk_usage > 35_000_000_000
 end
@@ -35,7 +45,7 @@ def submit_fqdump(queue, fpath)
   qsub = "#{GEadmin}/qsub -N #{job_name} -l #{queue} #{script_path} #{fpath}"
   status, stdout, stderr = systemu(qsub)
   raise RuntimeError if status.exitstatus != 0
-  puts [qsub, stdout]
+  puts [qsub, stdout, Time.now].join("\t")
   stdout.split("\s")[2] # return job id
 rescue NameError, RuntimeError
   sleep 180
@@ -57,7 +67,7 @@ if __FILE__ == $0
   while true
     data_sort_by_size(data_dir).each do |fpath|
       if not unfinished.include?(fpath)
-        submit_fqdump(GEQueue, fpath) if check_volume(data_dir, fq_dir)
+        submit_fqdump(GEQueue, fpath) # if check_volume(data_dir, fq_dir)
       end
     end
   end
